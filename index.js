@@ -25,6 +25,21 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    const allServices = client
+      .db("BusinessConsultant")
+      .collection("servicesNames");
+
+    app.get("/services", async (req, res) => {
+      const query = {};
+      const cursor = allServices.find(query);
+      if (req.query.limit) {
+        const services = await cursor.limit(3).toArray();
+        res.send(services);
+      } else {
+        const services = await cursor.toArray();
+        res.send(services);
+      }
+    });
   } finally {
   }
 }
