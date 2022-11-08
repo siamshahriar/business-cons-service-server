@@ -55,8 +55,8 @@ async function run() {
     app.get("/reviews/:id", async (req, res) => {
       const id = req.params.id;
       const query = { category: id };
-      const cataReviews = await reviews.find(query).toArray();
-      res.send(cataReviews);
+      const catagoryReviews = await reviews.find(query).toArray();
+      res.send(catagoryReviews);
     });
   } finally {
   }
