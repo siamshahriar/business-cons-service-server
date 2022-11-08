@@ -12,7 +12,7 @@ app.use(express.json());
 // mongoDB section ================
 
 //config
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.dhw1j4v.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -28,7 +28,9 @@ async function run() {
     const allServices = client
       .db("BusinessConsultant")
       .collection("servicesNames");
+    const reviews = client.db("BusinessConsultant").collection("reviews");
 
+    //it will give all the services
     app.get("/services", async (req, res) => {
       const query = {};
       const cursor = allServices.find(query);
@@ -39,6 +41,22 @@ async function run() {
         const services = await cursor.toArray();
         res.send(services);
       }
+    });
+
+    //it will give specific service details
+    app.get("/services/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const service = await allServices.findOne(query);
+      res.send(service);
+    });
+
+    //it will give category based reviews
+    app.get("/reviews/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { category: id };
+      const cataReviews = await reviews.find(query).toArray();
+      res.send(cataReviews);
     });
   } finally {
   }
