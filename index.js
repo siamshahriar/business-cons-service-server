@@ -58,6 +58,13 @@ async function run() {
       const catagoryReviews = await reviews.find(query).toArray();
       res.send(catagoryReviews);
     });
+
+    //it will add single review by the user
+    app.post("/addreview", async (req, res) => {
+      const postReview = req.body;
+      const result = await reviews.insertOne(postReview);
+      res.send(result);
+    });
   } finally {
   }
 }
