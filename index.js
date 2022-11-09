@@ -43,6 +43,14 @@ async function run() {
       }
     });
 
+    //it will add single service by the user
+    app.post("/services", async (req, res) => {
+      const newService = req.body;
+      console.log(newService);
+      const result = await allServices.insertOne(newService);
+      res.send(result);
+    });
+
     //it will give specific service details
     app.get("/services/:id", async (req, res) => {
       const id = req.params.id;
