@@ -63,7 +63,10 @@ async function run() {
     app.get("/reviews/:id", async (req, res) => {
       const id = req.params.id;
       const query = { category: id };
-      const catagoryReviews = await reviews.find(query).toArray();
+      const catagoryReviews = await reviews
+        .find(query)
+        .sort({ _id: -1 })
+        .toArray();
       res.send(catagoryReviews);
     });
 
@@ -71,7 +74,10 @@ async function run() {
     app.get("/reviews", async (req, res) => {
       const userEmail = req.query.email;
       const query = { email: userEmail };
-      const catagoryReviews = await reviews.find(query).toArray();
+      const catagoryReviews = await reviews
+        .find(query)
+        .sort({ _id: -1 })
+        .toArray();
       res.send(catagoryReviews);
     });
 
