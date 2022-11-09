@@ -73,6 +73,20 @@ async function run() {
       const result = await reviews.insertOne(postReview);
       res.send(result);
     });
+
+    //it will update the user's single review
+    app.patch("/reviews/:id", async (req, res) => {
+      const id = req.params.id;
+      const review = req.body.text;
+      const query = { _id: ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          text: review,
+        },
+      };
+      const result = await reviews.updateOne(query, updatedDoc);
+      res.send(result);
+    });
   } finally {
   }
 }
