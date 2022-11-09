@@ -59,6 +59,14 @@ async function run() {
       res.send(catagoryReviews);
     });
 
+    //it will give user's review based on his email
+    app.get("/reviews", async (req, res) => {
+      const userEmail = req.query.email;
+      const query = { email: userEmail };
+      const catagoryReviews = await reviews.find(query).toArray();
+      res.send(catagoryReviews);
+    });
+
     //it will add single review by the user
     app.post("/addreview", async (req, res) => {
       const postReview = req.body;
